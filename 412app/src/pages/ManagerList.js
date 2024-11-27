@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../services/api";
+import { Link } from "react-router-dom";
 
 function ManagerList() {
   const [managers, setManagers] = useState([]);
@@ -47,6 +48,12 @@ function ManagerList() {
   return (
     <div>
       <h1>Managers</h1>
+
+        <Link to="/">
+        <button style={{ marginBottom: "20px", padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px" }}>
+          Back to Home
+        </button>
+      </Link>
 
       {/* Add New Manager */}
       <div>
