@@ -48,37 +48,24 @@ function TeamList() {
       .catch((error) => console.error("Error updating team:", error));
   };
 
-  return (
+    return (
     <div>
       <h1>Teams</h1>
+      
+      {/* Back to Home Button */}
+      <Link to="/">
+        <button style={{ marginBottom: "20px", padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px" }}>
+          Back to Home
+        </button>
+      </Link>
 
       {/* Add New Team */}
       <div>
         <h3>Add New Team</h3>
-        <input
-          type="text"
-          placeholder="Team Name"
-          value={newTeam.TeamName}
-          onChange={(e) => setNewTeam({ ...newTeam, TeamName: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Country"
-          value={newTeam.Country}
-          onChange={(e) => setNewTeam({ ...newTeam, Country: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Foundation Year"
-          value={newTeam.FoundationYear}
-          onChange={(e) => setNewTeam({ ...newTeam, FoundationYear: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Total Wins"
-          value={newTeam.TotalWins}
-          onChange={(e) => setNewTeam({ ...newTeam, TotalWins: e.target.value })}
-        />
+        <input type="text" placeholder="Team Name" value={newTeam.TeamName} onChange={(e) => setNewTeam({ ...newTeam, TeamName: e.target.value })} />
+        <input type="text" placeholder="Country" value={newTeam.Country} onChange={(e) => setNewTeam({ ...newTeam, Country: e.target.value })} />
+        <input type="number" placeholder="Foundation Year" value={newTeam.FoundationYear} onChange={(e) => setNewTeam({ ...newTeam, FoundationYear: e.target.value })} />
+        <input type="number" placeholder="Total Wins" value={newTeam.TotalWins} onChange={(e) => setNewTeam({ ...newTeam, TotalWins: e.target.value })} />
         <button onClick={handleAddTeam}>Add Team</button>
       </div>
 
@@ -98,63 +85,29 @@ function TeamList() {
           {teams.map((team) => (
             <tr key={team.TeamID}>
               <td>{team.TeamID}</td>
-              <td>
-                {editingTeam && editingTeam.TeamID === team.TeamID ? (
-                  <input
-                    type="text"
-                    value={editingTeam.TeamName}
-                    onChange={(e) => setEditingTeam({ ...editingTeam, TeamName: e.target.value })}
-                  />
-                ) : (
-                  team.TeamName
-                )}
-              </td>
-              <td>
-                {editingTeam && editingTeam.TeamID === team.TeamID ? (
-                  <input
-                    type="text"
-                    value={editingTeam.Country}
-                    onChange={(e) => setEditingTeam({ ...editingTeam, Country: e.target.value })}
-                  />
-                ) : (
-                  team.Country
-                )}
-              </td>
-              <td>
-                {editingTeam && editingTeam.TeamID === team.TeamID ? (
-                  <input
-                    type="number"
-                    value={editingTeam.FoundationYear}
-                    onChange={(e) => setEditingTeam({ ...editingTeam, FoundationYear: e.target.value })}
-                  />
-                ) : (
-                  team.FoundationYear
-                )}
-              </td>
-              <td>
-                {editingTeam && editingTeam.TeamID === team.TeamID ? (
-                  <input
-                    type="number"
-                    value={editingTeam.TotalWins}
-                    onChange={(e) => setEditingTeam({ ...editingTeam, TotalWins: e.target.value })}
-                  />
-                ) : (
-                  team.TotalWins
-                )}
-              </td>
-              <td>
-                {editingTeam && editingTeam.TeamID === team.TeamID ? (
-                  <>
-                    <button onClick={() => handleEditTeam(team.TeamID)}>Save</button>
-                    <button onClick={() => setEditingTeam(null)}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={() => setEditingTeam(team)}>Edit</button>
-                    <button onClick={() => handleDeleteTeam(team.TeamID)}>Delete</button>
-                  </>
-                )}
-              </td>
+              <td>{editingTeam && editingTeam.TeamID === team.TeamID ? (
+                <input type="text" value={editingTeam.TeamName} onChange={(e) => setEditingTeam({ ...editingTeam, TeamName: e.target.value })} />
+              ) : team.TeamName}</td>
+              <td>{editingTeam && editingTeam.TeamID === team.TeamID ? (
+                <input type="text" value={editingTeam.Country} onChange={(e) => setEditingTeam({ ...editingTeam, Country: e.target.value })} />
+              ) : team.Country}</td>
+              <td>{editingTeam && editingTeam.TeamID === team.TeamID ? (
+                <input type="number" value={editingTeam.FoundationYear} onChange={(e) => setEditingTeam({ ...editingTeam, FoundationYear: e.target.value })} />
+              ) : team.FoundationYear}</td>
+              <td>{editingTeam && editingTeam.TeamID === team.TeamID ? (
+                <input type="number" value={editingTeam.TotalWins} onChange={(e) => setEditingTeam({ ...editingTeam, TotalWins: e.target.value })} />
+              ) : team.TotalWins}</td>
+              <td>{editingTeam && editingTeam.TeamID === team.TeamID ? (
+                <>
+                  <button onClick={() => handleEditTeam(team.TeamID)}>Save</button>
+                  <button onClick={() => setEditingTeam(null)}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => setEditingTeam(team)}>Edit</button>
+                  <button onClick={() => handleDeleteTeam(team.TeamID)}>Delete</button>
+                </>
+              )}</td>
             </tr>
           ))}
         </tbody>
