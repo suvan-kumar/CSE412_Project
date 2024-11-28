@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // For navigation
+import { Link } from "react-router-dom"; 
 import axios from "../services/api";
 
 function StatsList() {
