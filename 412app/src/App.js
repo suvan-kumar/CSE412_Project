@@ -16,12 +16,15 @@ function App() {
         <Navbar />
         <div className="container">
           <Routes>
+            {/* Home Route */}
             <Route path="/" element={<Home />} />
+
+            {/* Other Routes */}
             <Route path="/teams" element={<TeamList />} />
             <Route path="/managers" element={<ManagerList />} />
             <Route path="/players" element={<PlayerList />} />
             <Route path="/stats" element={<StatsList />} />
-            <Route path="/compare" element={<Compare />} /> {/* Compare page */}
+            <Route path="/compare" element={<Compare />} />
           </Routes>
         </div>
       </div>
