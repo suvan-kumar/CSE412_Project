@@ -37,11 +37,15 @@ function Compare() {
           onChange={(e) => setSearch1(e.target.value)}
         />
         <div>
-          {filteredPlayers1.map((player) => (
-            <div key={player.PlayerID} style={{ cursor: "pointer" }}>
-              <p onClick={() => setPlayer1(player)}>{player.Name}</p>
-            </div>
-          ))}
+          {filteredPlayers1.length > 0 ? (
+            filteredPlayers1.map((player) => (
+              <div key={player.PlayerID} style={{ cursor: "pointer" }}>
+                <p onClick={() => setPlayer1(player)}>{player.Name}</p>
+              </div>
+            ))
+          ) : (
+            <p>No players found for this search term.</p>
+          )}
         </div>
         {player1 && (
           <div style={{ border: "1px solid #ddd", padding: "10px", marginTop: "10px" }}>
@@ -63,11 +67,15 @@ function Compare() {
           onChange={(e) => setSearch2(e.target.value)}
         />
         <div>
-          {filteredPlayers2.map((player) => (
-            <div key={player.PlayerID} style={{ cursor: "pointer" }}>
-              <p onClick={() => setPlayer2(player)}>{player.Name}</p>
-            </div>
-          ))}
+          {filteredPlayers2.length > 0 ? (
+            filteredPlayers2.map((player) => (
+              <div key={player.PlayerID} style={{ cursor: "pointer" }}>
+                <p onClick={() => setPlayer2(player)}>{player.Name}</p>
+              </div>
+            ))
+          ) : (
+            <p>No players found for this search term.</p>
+          )}
         </div>
         {player2 && (
           <div style={{ border: "1px solid #ddd", padding: "10px", marginTop: "10px" }}>
