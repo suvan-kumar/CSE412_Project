@@ -1,123 +1,146 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../services/api";
 
 function Compare() {
-  const [players, setPlayers] = useState([]); // All players data
-  const [player1, setPlayer1] = useState(null); // First selected player
-  const [player2, setPlayer2] = useState(null); // Second selected player
-  const [search1, setSearch1] = useState(""); // Search term for player 1
-  const [search2, setSearch2] = useState(""); // Search term for player 2
+  const [players, setPlayers] = useState([]); 
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const [search, setSearch] = useState("");
 
-  // Fetch players from the API
   useEffect(() => {
-    axios.get("/players")
+    axios
+      .get("/players")
       .then((response) => setPlayers(response.data))
       .catch((error) => console.error("Error fetching players:", error));
   }, []);
 
-  // Search players by name
-  const filteredPlayers1 = players.filter((player) =>
-    player.Name.toLowerCase().includes(search1.toLowerCase())
+  const filteredPlayers = players.filter((player) =>
+    player.Name.toLowerCase().includes(search.toLowerCase())
   );
-  const filteredPlayers2 = players.filter((player) =>
-    player.Name.toLowerCase().includes(search2.toLowerCase())
-  );
+
+  const togglePlayerSelection = (player) => {
+    if (selectedPlayers.includes(player)) {
+      setSelectedPlayers(selectedPlayers.filter((p) => p !== player));
+    } else if (selectedPlayers.length < 4) {
+      setSelectedPlayers([...selectedPlayers, player]);
+    }
+  };
 
   return (
     <div>
       <h1>Compare Players</h1>
 
-      {/* Search and Select Player 1 */}
+      {/* Back to Home Button */}
+      <Link to="/">
+        <button
+          style={{
+            marginBottom: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+          }}
+        >
+          Back to Home
+        </button>
+      </Link>
+
+      {/* Search Players */}
       <div style={{ marginBottom: "20px" }}>
-        <h3>Player 1</h3>
         <input
           type="text"
-          placeholder="Search for a player"
-          value={search1}
-          onChange={(e) => setSearch1(e.target.value)}
+          placeholder="Search for players"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
         />
-        <div>
-          {filteredPlayers1.length > 0 ? (
-            filteredPlayers1.map((player) => (
-              <div key={player.PlayerID} style={{ cursor: "pointer" }}>
-                <p onClick={() => setPlayer1(player)}>{player.Name}</p>
-              </div>
-            ))
-          ) : (
-            <p>No players found for this search term.</p>
-          )}
-        </div>
-        {player1 && (
-          <div style={{ border: "1px solid #ddd", padding: "10px", marginTop: "10px" }}>
-            <h4>{player1.Name}</h4>
-            <p><strong>Age:</strong> {player1.Age}</p>
-            <p><strong>Position:</strong> {player1.Position}</p>
-            <p><strong>Games Played:</strong> {player1.GamesPlayed}</p>
-          </div>
-        )}
       </div>
 
-      {/* Search and Select Player 2 */}
-      <div style={{ marginBottom: "20px" }}>
-        <h3>Player 2</h3>
-        <input
-          type="text"
-          placeholder="Search for a player"
-          value={search2}
-          onChange={(e) => setSearch2(e.target.value)}
-        />
-        <div>
-          {filteredPlayers2.length > 0 ? (
-            filteredPlayers2.map((player) => (
-              <div key={player.PlayerID} style={{ cursor: "pointer" }}>
-                <p onClick={() => setPlayer2(player)}>{player.Name}</p>
-              </div>
-            ))
-          ) : (
-            <p>No players found for this search term.</p>
-          )}
-        </div>
-        {player2 && (
-          <div style={{ border: "1px solid #ddd", padding: "10px", marginTop: "10px" }}>
-            <h4>{player2.Name}</h4>
-            <p><strong>Age:</strong> {player2.Age}</p>
-            <p><strong>Position:</strong> {player2.Position}</p>
-            <p><strong>Games Played:</strong> {player2.GamesPlayed}</p>
+      {/* Player Selection */}
+      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        {filteredPlayers.map((player) => (
+          <div
+            key={player.PlayerID}
+            onClick={() => togglePlayerSelection(player)}
+            style={{
+              padding: "10px",
+              border: "1px solid #007bff",
+              borderRadius: "5px",
+              cursor: "pointer",
+              backgroundColor: selectedPlayers.includes(player)
+                ? "#007bff"
+                : "white",
+              color: selectedPlayers.includes(player) ? "white" : "black",
+            }}
+          >
+            {player.Name}
           </div>
-        )}
+        ))}
       </div>
 
-      {/* Comparison */}
-      {player1 && player2 && (
-        <div style={{ border: "1px solid #000", padding: "20px", marginTop: "20px" }}>
+      {/* Comparison Table */}
+      {selectedPlayers.length > 1 && (
+        <div style={{ marginTop: "20px" }}>
           <h2>Comparison</h2>
-          <table border="1">
+          <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr>
                 <th>Stat</th>
-                <th>{player1.Name}</th>
-                <th>{player2.Name}</th>
+                {selectedPlayers.map((player) => (
+                  <th key={player.PlayerID}>{player.Name}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Age</td>
-                <td>{player1.Age}</td>
-                <td>{player2.Age}</td>
-              </tr>
-              <tr>
-                <td>Position</td>
-                <td>{player1.Position}</td>
-                <td>{player2.Position}</td>
-              </tr>
-              <tr>
                 <td>Games Played</td>
-                <td>{player1.GamesPlayed}</td>
-                <td>{player2.GamesPlayed}</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.PlayerID}>{player.GamesPlayed}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Wins</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.PlayerID}>{player.Wins}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Total Trophies</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.PlayerID}>{player.Trophies}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Team Affiliation</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.PlayerID}>{player.TeamName}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Average Score/Game</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.PlayerID}>
+                    {(
+                      player.TotalScore / player.GamesPlayed || 0
+                    ).toFixed(2)}
+                  </td>
+                ))}
               </tr>
             </tbody>
           </table>
         </div>
+      )}
+
+      {selectedPlayers.length === 0 && (
+        <p style={{ marginTop: "20px", textAlign: "center" }}>
+          Select at least two players to compare.
+        </p>
       )}
     </div>
   );
