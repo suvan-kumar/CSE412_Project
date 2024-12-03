@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function ManagerList() {
   const [managers, setManagers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // State to store search input
 
   // Fetch Managers
   useEffect(() => {
@@ -16,6 +17,11 @@ function ManagerList() {
       .then((response) => setManagers(response.data))
       .catch((error) => console.error("Error fetching managers:", error));
   };
+
+  // Filter managers based on the search term
+  const filteredManagers = managers.filter((manager) =>
+    manager.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -37,8 +43,25 @@ function ManagerList() {
         </button>
       </Link>
 
+      {/* Search Managers */}
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Search for a manager"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            margin: "10px 0",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        />
+      </div>
+
       {/* Display Managers */}
-      <table border="1">
+      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th>Manager ID</th>
@@ -50,8 +73,8 @@ function ManagerList() {
           </tr>
         </thead>
         <tbody>
-          {managers.length > 0 ? (
-            managers.map((manager) => (
+          {filteredManagers.length > 0 ? (
+            filteredManagers.map((manager) => (
               <tr key={manager.ManagerID}>
                 <td>{manager.ManagerID}</td>
                 <td>{manager.Name}</td>
@@ -64,7 +87,7 @@ function ManagerList() {
           ) : (
             <tr>
               <td colSpan="6" style={{ textAlign: "center" }}>
-                No managers available
+                No managers found
               </td>
             </tr>
           )}
