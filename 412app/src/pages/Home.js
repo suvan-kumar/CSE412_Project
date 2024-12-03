@@ -6,7 +6,7 @@ function Home() {
     <div>
       <h1>Welcome to the 412App</h1>
       <p>Choose a section to explore:</p>
-      <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+      <div style={{ display: "flex", gap: "20px", marginTop: "20px", flexWrap: "wrap" }}>
         <Link to="/teams">
           <button style={{ padding: "10px 20px" }}>View Teams</button>
         </Link>
@@ -18,6 +18,9 @@ function Home() {
         </Link>
         <Link to="/stats">
           <button style={{ padding: "10px 20px" }}>View Stats</button>
+        </Link>
+        <Link to="/compare">
+          <button style={{ padding: "10px 20px" }}>Compare Players</button>
         </Link>
       </div>
     </div>
