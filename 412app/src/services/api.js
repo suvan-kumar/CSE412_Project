@@ -1,23 +1,23 @@
 import axios from "axios";
 
-// Create an Axios instance with the base URL for your backend API
 const API = axios.create({
-  baseURL: "http://localhost:5000/api", // Update this with your actual backend URL
+  baseURL: "http://localhost:5000/api", // Ensure this matches your backend's base URL
 });
 
-// Define functions to interact with each table in your database
-
-// Fetch all teams
+// Team API calls
 export const getTeams = () => API.get("/teams");
+export const getTeamById = (id) => API.get(`/teams?id=${id}`);
 
-// Fetch all managers
+// Manager API calls
 export const getManagers = () => API.get("/managers");
+export const getManagerById = (id) => API.get(`/managers?id=${id}`);
 
-// Fetch all players
+// Player API calls
 export const getPlayers = () => API.get("/players");
+export const getPlayerById = (id) => API.get(`/players?id=${id}`);
 
-// Fetch all player stats
+// Stats API calls
 export const getStats = () => API.get("/stats");
+export const getStatsByPlayerId = (id) => API.get(`/stats?id=${id}`);
 
-// Export the API instance for other custom requests
 export default API;
