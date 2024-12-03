@@ -29,12 +29,83 @@ pool.connect((err, client, release) => {
 
 app.get('/api/players', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM Players');
+        const id = req.query.id
+        var result
+        if(id)
+        {
+          result = await pool.query(`SELECT * FROM public.player WHERE playerid = ${id}`);
+        }
+        else 
+        {
+          result = await pool.query(`SELECT * FROM public.player`);
+        }
+        
         res.status(200).json(result.rows)
     } catch(err) {
         console.error(err)
         res.status(500).json({ error: 'Database Error' })
     }
+})
+
+
+app.get('/api/managers', async (req, res) => {
+  try {
+      const id = req.query.id
+      var result
+      if(id)
+      {
+        result = await pool.query(`SELECT * FROM public.manager WHERE managerid = ${id}`);
+      }
+      else 
+      {
+        result = await pool.query(`SELECT * FROM public.manager`);
+      }
+      
+      res.status(200).json(result.rows)
+  } catch(err) {
+      console.error(err)
+      res.status(500).json({ error: 'Database Error' })
+  }
+})
+
+app.get('/api/stats', async (req, res) => {
+  try {
+      const id = req.query.id
+      var result
+      if(id)
+      {
+        result = await pool.query(`SELECT * FROM public.stat WHERE playerid = ${id}`);
+      }
+      else 
+      {
+        result = await pool.query(`SELECT * FROM public.stat`);
+      }
+      
+      res.status(200).json(result.rows)
+  } catch(err) {
+      console.error(err)
+      res.status(500).json({ error: 'Database Error' })
+  }
+})
+
+app.get('/api/teams', async (req, res) => {
+  try {
+      const id = req.query.id
+      var result
+      if(id)
+      {
+        result = await pool.query(`SELECT * FROM public.team WHERE teamid = ${id}`);
+      }
+      else 
+      {
+        result = await pool.query(`SELECT * FROM public.team`);
+      }
+      
+      res.status(200).json(result.rows)
+  } catch(err) {
+      console.error(err)
+      res.status(500).json({ error: 'Database Error' })
+  }
 })
 
 app.listen(port, () => {
