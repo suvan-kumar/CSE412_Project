@@ -7,6 +7,7 @@ import TeamList from "./pages/TeamList"; // Teams page
 import ManagerList from "./pages/ManagerList"; // Managers page
 import PlayerList from "./pages/PlayerList"; // Players page
 import StatsList from "./pages/StatsList"; // Stats page
+import Compare from "./pages/Compare"; // Compare Players page
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/managers" element={<ManagerList />} />
             <Route path="/players" element={<PlayerList />} />
             <Route path="/stats" element={<StatsList />} />
+            <Route path="/compare" element={<Compare />} /> {/* Compare page */}
           </Routes>
         </div>
       </div>
