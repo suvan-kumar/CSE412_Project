@@ -4,6 +4,7 @@ import axios from "../services/api";
 
 function StatsList() {
   const [stats, setStats] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // To store the search input
 
   // Fetch Stats
   useEffect(() => {
@@ -16,6 +17,18 @@ function StatsList() {
       .then((response) => setStats(response.data))
       .catch((error) => console.error("Error fetching stats:", error));
   };
+
+  // Filter stats based on the search term
+  const filteredStats = stats.filter(
+    (stat) =>
+      stat.PlayerID.toString().includes(searchTerm) ||
+      stat.Shots.toString().includes(searchTerm) ||
+      stat.Goals.toString().includes(searchTerm) ||
+      stat.Assists.toString().includes(searchTerm) ||
+      stat.RedCards.toString().includes(searchTerm) ||
+      stat.YellowCards.toString().includes(searchTerm) ||
+      stat.Saves.toString().includes(searchTerm)
+  );
 
   return (
     <div>
@@ -37,8 +50,25 @@ function StatsList() {
         </button>
       </Link>
 
+      {/* Search Stats */}
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Search stats by player ID, goals, etc."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            margin: "10px 0",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        />
+      </div>
+
       {/* Display Stats */}
-      <table border="1">
+      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th>Stat ID</th>
@@ -52,8 +82,8 @@ function StatsList() {
           </tr>
         </thead>
         <tbody>
-          {stats.length > 0 ? (
-            stats.map((stat) => (
+          {filteredStats.length > 0 ? (
+            filteredStats.map((stat) => (
               <tr key={stat.StatID}>
                 <td>{stat.StatID}</td>
                 <td>{stat.PlayerID}</td>
@@ -68,7 +98,7 @@ function StatsList() {
           ) : (
             <tr>
               <td colSpan="8" style={{ textAlign: "center" }}>
-                No stats available
+                No stats found
               </td>
             </tr>
           )}
