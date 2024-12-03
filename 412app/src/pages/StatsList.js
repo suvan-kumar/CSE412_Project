@@ -4,7 +4,7 @@ import axios from "../services/api";
 
 function StatsList() {
   const [stats, setStats] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // To store the search input
+  const [searchTerm, setSearchTerm] = useState(""); // To filter stats by player name or ID
 
   // Fetch Stats
   useEffect(() => {
@@ -18,16 +18,11 @@ function StatsList() {
       .catch((error) => console.error("Error fetching stats:", error));
   };
 
-  // Filter stats based on the search term
+  // Filter stats based on search term (player name or ID)
   const filteredStats = stats.filter(
     (stat) =>
-      stat.PlayerID.toString().includes(searchTerm) ||
-      stat.Shots.toString().includes(searchTerm) ||
-      stat.Goals.toString().includes(searchTerm) ||
-      stat.Assists.toString().includes(searchTerm) ||
-      stat.RedCards.toString().includes(searchTerm) ||
-      stat.YellowCards.toString().includes(searchTerm) ||
-      stat.Saves.toString().includes(searchTerm)
+      stat.PlayerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      stat.PlayerID.toString().includes(searchTerm)
   );
 
   return (
@@ -54,7 +49,7 @@ function StatsList() {
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
-          placeholder="Search stats by player ID, goals, etc."
+          placeholder="Search by player name or ID"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
@@ -73,6 +68,7 @@ function StatsList() {
           <tr>
             <th>Stat ID</th>
             <th>Player ID</th>
+            <th>Player Name</th>
             <th>Shots</th>
             <th>Goals</th>
             <th>Assists</th>
@@ -87,6 +83,7 @@ function StatsList() {
               <tr key={stat.StatID}>
                 <td>{stat.StatID}</td>
                 <td>{stat.PlayerID}</td>
+                <td>{stat.PlayerName || "Unknown"}</td>
                 <td>{stat.Shots}</td>
                 <td>{stat.Goals}</td>
                 <td>{stat.Assists}</td>
@@ -97,8 +94,8 @@ function StatsList() {
             ))
           ) : (
             <tr>
-              <td colSpan="8" style={{ textAlign: "center" }}>
-                No stats found
+              <td colSpan="9" style={{ textAlign: "center" }}>
+                No stats available
               </td>
             </tr>
           )}
