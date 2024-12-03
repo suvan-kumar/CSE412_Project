@@ -4,6 +4,7 @@ import axios from "../services/api";
 
 function TeamList() {
   const [teams, setTeams] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // To store the search input
 
   // Fetch Teams from the database
   useEffect(() => {
@@ -12,10 +13,15 @@ function TeamList() {
 
   const fetchTeams = () => {
     axios
-      .get("/teams")
+      .get("/teams") // Fetch all teams
       .then((response) => setTeams(response.data))
       .catch((error) => console.error("Error fetching teams:", error));
   };
+
+  // Filtered teams based on search term
+  const filteredTeams = teams.filter((team) =>
+    team.TeamName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -37,8 +43,25 @@ function TeamList() {
         </button>
       </Link>
 
+      {/* Search Team */}
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Search for a team"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            margin: "10px 0",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        />
+      </div>
+
       {/* Display Teams */}
-      <table border="1">
+      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th>Team ID</th>
@@ -49,8 +72,8 @@ function TeamList() {
           </tr>
         </thead>
         <tbody>
-          {teams.length > 0 ? (
-            teams.map((team) => (
+          {filteredTeams.length > 0 ? (
+            filteredTeams.map((team) => (
               <tr key={team.TeamID}>
                 <td>{team.TeamID}</td>
                 <td>{team.TeamName}</td>
@@ -62,7 +85,7 @@ function TeamList() {
           ) : (
             <tr>
               <td colSpan="5" style={{ textAlign: "center" }}>
-                No teams available
+                No teams found
               </td>
             </tr>
           )}
