@@ -1,6 +1,7 @@
 npm install express
 npm install pg
 npm install dotenv
+npm install cors
 
 API Usage:
 api/players returns all players
