@@ -1,4 +1,6 @@
 Download and install from https://nodejs.org/
+cd into 412app
 npm install axios
 npm install react-router-dom
 npm install 
+npm start
