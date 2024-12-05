@@ -20,7 +20,7 @@ function ManagerList() {
 
   // Filter managers based on the search term
   const filteredManagers = managers.filter((manager) =>
-    manager.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    manager.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -75,13 +75,13 @@ function ManagerList() {
         <tbody>
           {filteredManagers.length > 0 ? (
             filteredManagers.map((manager) => (
-              <tr key={manager.ManagerID}>
-                <td>{manager.ManagerID}</td>
-                <td>{manager.Name}</td>
-                <td>{manager.Nationality}</td>
-                <td>{manager.Age}</td>
-                <td>{manager.ExperienceYears}</td>
-                <td>{manager.TeamID}</td>
+              <tr key={manager.managerid}>
+                <td>{manager.managerid}</td>
+                <td>{manager.name}</td>
+                <td>{manager.nationality}</td>
+                <td>{manager.age}</td>
+                <td>{manager.experienceyears}</td>
+                <td>{manager.teamid}</td>
               </tr>
             ))
           ) : (

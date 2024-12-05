@@ -21,8 +21,8 @@ function StatsList() {
   // Filter stats based on search term (player name or ID)
   const filteredStats = stats.filter(
     (stat) =>
-      stat.PlayerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      stat.PlayerID.toString().includes(searchTerm)
+      stat.playername?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      stat.playerid.toString().includes(searchTerm)
   );
 
   return (
@@ -80,16 +80,16 @@ function StatsList() {
         <tbody>
           {filteredStats.length > 0 ? (
             filteredStats.map((stat) => (
-              <tr key={stat.StatID}>
-                <td>{stat.StatID}</td>
-                <td>{stat.PlayerID}</td>
-                <td>{stat.PlayerName || "Unknown"}</td>
-                <td>{stat.Shots}</td>
-                <td>{stat.Goals}</td>
-                <td>{stat.Assists}</td>
-                <td>{stat.RedCards}</td>
-                <td>{stat.YellowCards}</td>
-                <td>{stat.Saves}</td>
+              <tr key={stat.statid}>
+                <td>{stat.statid}</td>
+                <td>{stat.playerid}</td>
+                <td>{stat.playername || "Unknown"}</td>
+                <td>{stat.shots}</td>
+                <td>{stat.goals}</td>
+                <td>{stat.assists}</td>
+                <td>{stat.redcards}</td>
+                <td>{stat.yellowcards}</td>
+                <td>{stat.saves}</td>
               </tr>
             ))
           ) : (

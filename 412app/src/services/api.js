@@ -20,4 +20,7 @@ export const getPlayerById = (id) => API.get(`/players?id=${id}`);
 export const getStats = () => API.get("/stats");
 export const getStatsByPlayerId = (id) => API.get(`/stats?id=${id}`);
 
+// Stat and player API call
+export const getPlayerAndStats = () => API.get("/playerAndStats");
+
 export default API;

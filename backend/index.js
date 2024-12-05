@@ -5,7 +5,9 @@ require('dotenv').config();
 const app = express();
 const port = 5000;
 app.use(express.json());
+var cors = require('cors')
 
+app.use(cors())
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -37,7 +39,7 @@ app.get('/api/players', async (req, res) => {
         }
         else 
         {
-          result = await pool.query(`SELECT * FROM public.player`);
+          result = await pool.query(`SELECT player.*, team.teamname AS teamname FROM public.player JOIN team ON team.teamid = player.teamid`);
         }
         
         res.status(200).json(result.rows)
@@ -74,13 +76,24 @@ app.get('/api/stats', async (req, res) => {
       var result
       if(id)
       {
-        result = await pool.query(`SELECT * FROM public.stat WHERE playerid = ${id}`);
+        result = await pool.query(`SELECT stats.*, player.name AS playername FROM public.stats WHERE public.stats.playerid = ${id} JOIN player ON stats.playerid = player.playerid`);
       }
       else 
       {
-        result = await pool.query(`SELECT * FROM public.stat`);
+        result = await pool.query(`SELECT stats.*, player.name AS playername FROM public.stats JOIN player ON stats.playerid = player.playerid`);
       }
       
+      res.status(200).json(result.rows)
+  } catch(err) {
+      console.error(err)
+      res.status(500).json({ error: 'Database Error' })
+  }
+})
+
+app.get('/api/playerAndStats', async (req, res) => {
+  try {
+      const id = req.query.id
+      var result = await pool.query(`SELECT player.*, stats.*, team.teamname AS teamname FROM player JOIN stats ON player.playerid = stats.playerid JOIN team ON team.teamid = player.teamid`);
       res.status(200).json(result.rows)
   } catch(err) {
       console.error(err)

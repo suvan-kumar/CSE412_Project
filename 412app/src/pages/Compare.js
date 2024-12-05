@@ -9,13 +9,13 @@ function Compare() {
 
   useEffect(() => {
     axios
-      .get("/players")
+      .get("/playerAndStats")
       .then((response) => setPlayers(response.data))
       .catch((error) => console.error("Error fetching players:", error));
   }, []);
 
   const filteredPlayers = players.filter((player) =>
-    player.Name.toLowerCase().includes(search.toLowerCase())
+    player.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const togglePlayerSelection = (player) => {
@@ -79,7 +79,7 @@ function Compare() {
               color: selectedPlayers.includes(player) ? "white" : "black",
             }}
           >
-            {player.Name}
+            {player.name}
           </div>
         ))}
       </div>
@@ -93,41 +93,83 @@ function Compare() {
               <tr>
                 <th>Stat</th>
                 {selectedPlayers.map((player) => (
-                  <th key={player.PlayerID}>{player.Name}</th>
+                  <th key={player.playerid}>{player.name}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>Age</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.age}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Nationality</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.nationality}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Position</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.position}</td>
+                ))}
+              </tr>
+              <tr>
                 <td>Games Played</td>
                 {selectedPlayers.map((player) => (
-                  <td key={player.PlayerID}>{player.GamesPlayed}</td>
+                  <td key={player.playerid}>{player.gamesplayed}</td>
                 ))}
               </tr>
               <tr>
-                <td>Wins</td>
+                <td>Shots</td>
                 {selectedPlayers.map((player) => (
-                  <td key={player.PlayerID}>{player.Wins}</td>
+                  <td key={player.playerid}>{player.shots}</td>
                 ))}
               </tr>
               <tr>
-                <td>Total Trophies</td>
+                <td>Goals</td>
                 {selectedPlayers.map((player) => (
-                  <td key={player.PlayerID}>{player.Trophies}</td>
+                  <td key={player.playerid}>{player.goals}</td>
                 ))}
               </tr>
               <tr>
-                <td>Team Affiliation</td>
+                <td>Assists</td>
                 {selectedPlayers.map((player) => (
-                  <td key={player.PlayerID}>{player.TeamName}</td>
+                  <td key={player.playerid}>{player.assists}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Yellow Cards</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.yellowcards}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Red Cards</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.redcards}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Saves</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.saves}</td>
+                ))}
+              </tr>
+              <tr>
+                <td>Club</td>
+                {selectedPlayers.map((player) => (
+                  <td key={player.playerid}>{player.teamname}</td>
                 ))}
               </tr>
               <tr>
                 <td>Average Score/Game</td>
                 {selectedPlayers.map((player) => (
-                  <td key={player.PlayerID}>
+                  <td key={player.playerid}>
                     {(
-                      player.TotalScore / player.GamesPlayed || 0
+                      player.goals / player.gamesplayed || 0
                     ).toFixed(2)}
                   </td>
                 ))}

@@ -20,7 +20,7 @@ function TeamList() {
 
   // Filtered teams based on search term
   const filteredTeams = teams.filter((team) =>
-    team.TeamName.toLowerCase().includes(searchTerm.toLowerCase())
+    team.teamname.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -74,12 +74,12 @@ function TeamList() {
         <tbody>
           {filteredTeams.length > 0 ? (
             filteredTeams.map((team) => (
-              <tr key={team.TeamID}>
-                <td>{team.TeamID}</td>
-                <td>{team.TeamName}</td>
-                <td>{team.Country}</td>
-                <td>{team.FoundationYear}</td>
-                <td>{team.TotalWins}</td>
+              <tr key={team.teamid}>
+                <td>{team.teamid}</td>
+                <td>{team.teamname}</td>
+                <td>{team.country}</td>
+                <td>{team.foundationyear}</td>
+                <td>{team.totalwins}</td>
               </tr>
             ))
           ) : (

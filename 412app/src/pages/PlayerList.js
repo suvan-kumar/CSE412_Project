@@ -20,7 +20,7 @@ function PlayerList() {
 
   // Filter players based on the search term
   const filteredPlayers = players.filter((player) =>
-    player.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    player.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -70,20 +70,20 @@ function PlayerList() {
             <th>Position</th>
             <th>Nationality</th>
             <th>Games Played</th>
-            <th>Team ID</th>
+            <th>Club</th>
           </tr>
         </thead>
         <tbody>
           {filteredPlayers.length > 0 ? (
             filteredPlayers.map((player) => (
-              <tr key={player.PlayerID}>
-                <td>{player.PlayerID}</td>
-                <td>{player.Name}</td>
-                <td>{player.Age}</td>
-                <td>{player.Position}</td>
-                <td>{player.Nationality}</td>
-                <td>{player.GamesPlayed}</td>
-                <td>{player.TeamID}</td>
+              <tr key={player.playerid}>
+                <td>{player.playerid}</td>
+                <td>{player.name}</td>
+                <td>{player.age}</td>
+                <td>{player.position}</td>
+                <td>{player.nationality}</td>
+                <td>{player.gamesplayed}</td>
+                <td>{player.teamname}</td>
               </tr>
             ))
           ) : (
