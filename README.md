@@ -1,5 +1,4 @@
 Frontend:
-
 Download and install from https://nodejs.org/
 cd into 412app
 npm install axios
@@ -13,6 +12,7 @@ npm install express
 npm install pg
 npm install dotenv
 npm install cors
+node index.js 
 
 API Usage:
 api/players returns all players
